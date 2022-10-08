@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import "./App.css";
+import Navbar from "./Components/Navbar";
+import { useSelector, useDispatch } from "react-redux";
+import MealContainer from "./Components/MealContainer";
+import { useEffect } from "react";
+import { getMealItems } from "./Features/mealSlice";
 
 function App() {
+  const { meals, isLoading } = useSelector((store) => store.meal);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMealItems());
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="loading">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <MealContainer />
+    </>
   );
 }
 
